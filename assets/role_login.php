@@ -1,54 +1,58 @@
 <?php
-require 'connection.php';
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "smart_streetlight";
 
-$username = filter_input(INPUT_POST, 'username');
-$password = filter_input(INPUT_POST, 'password');
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-if (isset($_SESSION['username'])) {
-    $username = $_SESSION['username'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $input_username = $_POST["username"];
+    $input_password = $_POST["password"];
 
-    $sql = "SELECT id_role FROM users WHERE username = ?";
+    $sql = "SELECT id_account, username, password, id_role FROM account WHERE username = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $username);
+    $stmt->bind_param("s", $input_username); 
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        $id_role = $row['id_role'];
-        $_SESSION['id_role'] = $id_role;
+        // Verify the password using password_verify()
+        if (password_verify($input_password, $row["password"])) {
+            // Authentication successful
+            session_start();
+            $_SESSION["username"] = $row["username"];
+            $_SESSION["id_role"] = $row["id_role"]; // Store the user's role
+
+            // Redirect based on user role
+            switch ($row["id_role"]) {
+                case "1":
+                    header("Location: ../admin/dashboard.php");
+                    break;
+                case "2":
+                    header("Location: ../captain/dashboard.php");
+                    break;
+                default:
+                    header("Location: ../dashboard.php");
+                    break;
+            }
+            exit();
+        } else {
+            // Incorrect password
+            header("Location: index.php?error=Incorrect password");
+            exit();
+        }
     } else {
-        echo "User not found.";
-        $conn->close();
+        // User not found
+        header("Location: index.php?error=User not found");
         exit();
     }
-    $stmt->close();
 
-} else {
-    echo "User not logged in.";
+    $stmt->close(); // Close the prepared statement
     $conn->close();
-    exit();
-
 }
-$current_page = basename($_SERVER['PHP_SELF']); // Get the current page name
-
-switch ($id_role) {
-    case 1:
-        if ($current_page != "admin/dashboard.php") {
-            header("Location: admin/dashboard.php"); // Redirect to admin dashboard
-            exit();
-        }
-        break;
-    case 2:
-        if ($current_page != "captain/dashboard.php") {
-            header("Location: captain/dashboard.php"); // Redirect to captain dashboard
-            exit();
-        }
-        break;
-    default:
-        header("Location: dashboard.php"); // Redirect to default dashboard for all other roles
-        break;
-}
-
-$conn->close();
 ?>

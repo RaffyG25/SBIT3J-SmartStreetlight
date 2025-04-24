@@ -1,9 +1,15 @@
+<?php
+    session_start();
+    require '../assets/connection.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard with Sidebar</title>
+    <title>Smart Streetlight</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -15,22 +21,22 @@
 <body class="bg-gray-100 h-screen flex">
     <div id="sidebar" class="bg-white text-gray-900 border-r border-gray-200 transition-all duration-300 ease-in-out h-full flex flex-col w-64">
         <div class="flex items-center justify-between h-16 px-4 border-b border-gray-200">
-            <h1 class="text-lg font-semibold">Dashboard</h1>
+            <h1 class="text-lg font-semibold">Smart Streetlight</h1>
             <button id="collapse-btn" class="lg:hidden rounded-full p-1 hover:bg-gray-100">
                 <svg id="collapse-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left h-5 w-5"><path d="m15 18-6-6 6-6"/></svg>
             </button>
         </div>
         <nav class="flex-1 overflow-y-auto p-2">
             <div class="space-y-2">
-                <a href="#" class="flex items-center p-2 rounded-md hover:bg-gray-100 transition-colors duration-200">
+            <a href="dashboard.php" class="flex items-center p-2 rounded-md hover:bg-gray-100 transition-colors duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard mr-2 h-4 w-4"><rect width="22" height="9" x="1" y="3" rx="4" ry="4"/><rect width="22" height="9" x="1" y="12" rx="4" ry="4"/><path d="M6 6h6"/><path d="M6 15h6"/></svg>
                     <span class="menu-item-label">Dashboard</span>
                 </a>
-                <a href="#" class="flex items-center p-2 rounded-md hover:bg-gray-100 transition-colors duration-200">
+                <a href="users.php" class="flex items-center p-2 rounded-md hover:bg-gray-100 transition-colors duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-plus mr-2 h-4 w-4"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8" cy="7" r="4"/><path d="M20 8v6m-4-2h8"/></svg>
-                    <span class="menu-item-label">Add User</span>
+                    <span class="menu-item-label">Users</span>
                 </a>
-                <a href="#" class="flex items-center p-2 rounded-md hover:bg-gray-100 transition-colors duration-200">
+                <a href="../logout.php" class="flex items-center p-2 rounded-md hover:bg-gray-100 transition-colors duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out mr-2 h-4 w-4"><path d="M9 21H5a2 2 0 0 1-2-2v-4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
                     <span class="menu-item-label">Logout</span>
                 </a>
