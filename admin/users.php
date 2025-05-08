@@ -1,5 +1,18 @@
 <?php
     session_start();
+
+    if (!isset($_SESSION['username'])) {
+        header("Location: ../index.php");
+        exit();
+    }
+
+    if($_SESSION['id_role'] == 3){
+        header("Location: ../dashboard.php");
+    }
+    else if ($_SESSION['id_role'] == 2){
+        header("Location: ../captain/dashboard.php");
+    }
+
     require '../assets/fetch_account.php';
 
     $result = fetchAccounts();

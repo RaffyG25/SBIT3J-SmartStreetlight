@@ -1,3 +1,19 @@
+<?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: ../index.php");
+    exit();
+}
+
+if($_SESSION['id_role'] == 1){
+    header("Location: /admin/dashboard.php");
+}
+else if ($_SESSION['id_role'] == 2){
+    header("Location: /captain/dashboard.php");
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,11 +51,41 @@
         </nav>
     </div>
 
-    <main class="flex-1 p-6">
-        <h2 class="text-2xl font-semibold mb-4 text-gray-900">Welcome to the Dashboard</h2>
-        <p class="text-gray-600">This is your main content area. You can add your dashboard components here.</p>
-    </main>
+    <main class="flex-1 p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
+    <?php
+        $sensors = include 'assets/sensors.php';
+
+        if (!empty($sensors)) {
+            foreach ($sensors as $sens) {
+                if ($sens["ledStatus"]  == "ON") {
+                    $led_status = "ON";
+                    $image_src = "assets/img/ON.png";
+                } else {
+                    $led_status = "OFF";
+                    $image_src = "assets/img/OFF.png";
+                }
+
+                echo '<div class="bg-white rounded-lg shadow-md overflow-hidden flex" style="height: 200px;">';
+                echo '<div class="w-1/3">';
+                echo '<br/>';
+                echo '<img src="' . $image_src . '" alt="LED Status ' . $led_status . '" class="w-25 h-25 object-cover">';
+                echo '</div>';
+                echo '<div class="p-4 w-2/3 flex flex-col justify-between">';
+                echo '<h3 class="text-lg font-semibold text-gray-900">LED ' . $sens["id_sensor"] . '</h3>'; // Title: LED (1), LED (2), etc.
+                echo '<p class="mt-2 text-gray-700">LDR Value: ' . $sens["ldrValue"] .  '</p>';
+                echo '<div class="mt-3">';
+                echo '<span class="text-sm text-gray-600">Status: ' . $sens["ledStatus"] .  '</span>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+            }
+        } else {
+            echo "<div class='bg-white rounded-lg shadow-md p-4'>No data found</div>"; // Or any other message you prefer
+        }
+        ?>
+
+</main>
     <script>
         const sidebar = document.getElementById('sidebar');
         const collapseBtn = document.getElementById('collapse-btn');

@@ -1,13 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "smart_streetlight";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require 'dbconn.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $input_username = $_POST["username"];
@@ -21,14 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        // Verify the password using password_verify()
         if (password_verify($input_password, $row["password"])) {
-            // Authentication successful
             session_start();
             $_SESSION["username"] = $row["username"];
-            $_SESSION["id_role"] = $row["id_role"]; // Store the user's role
-
-            // Redirect based on user role
+            $_SESSION["id_role"] = $row["id_role"];
             switch ($row["id_role"]) {
                 case "1":
                     header("Location: ../admin/dashboard.php");
@@ -42,17 +30,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             exit();
         } else {
-            // Incorrect password
-            header("Location: index.php?error=Incorrect password");
+            header("Location: ../index.php?error=Incorrect password");
             exit();
         }
     } else {
-        // User not found
-        header("Location: index.php?error=User not found");
+        header("Location: ../index.php?error=User not found");
         exit();
     }
 
-    $stmt->close(); // Close the prepared statement
+    $stmt->close();
     $conn->close();
 }
 ?>

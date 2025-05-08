@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 if (!isset($_SESSION['username'])) {
     header("Location: ../index.php");
     exit();
@@ -12,7 +13,6 @@ else if ($_SESSION['id_role'] == 1){
     header("Location: ../admin/dashboard.php");
 }
 
-
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +20,7 @@ else if ($_SESSION['id_role'] == 1){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard with Sidebar</title>
+    <title>Smart Streetlight Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -32,7 +32,7 @@ else if ($_SESSION['id_role'] == 1){
 <body class="bg-gray-100 h-screen flex">
     <div id="sidebar" class="bg-white text-gray-900 border-r border-gray-200 transition-all duration-300 ease-in-out h-full flex flex-col w-64">
         <div class="flex items-center justify-between h-16 px-4 border-b border-gray-200">
-            <h1 class="text-lg font-semibold">Dashboard</h1>
+            <h1 class="text-lg font-semibold">Smart Streetlight Dashboard</h1>
             <button id="collapse-btn" class="lg:hidden rounded-full p-1 hover:bg-gray-100">
                 <svg id="collapse-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left h-5 w-5"><path d="m15 18-6-6 6-6"/></svg>
             </button>
@@ -43,7 +43,7 @@ else if ($_SESSION['id_role'] == 1){
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard mr-2 h-4 w-4"><rect width="22" height="9" x="1" y="3" rx="4" ry="4"/><rect width="22" height="9" x="1" y="12" rx="4" ry="4"/><path d="M6 6h6"/><path d="M6 15h6"/></svg>
                     <span class="menu-item-label">Dashboard</span>
                 </a>
-                <a href="logout.php" class="flex items-center p-2 rounded-md hover:bg-gray-100 transition-colors duration-200">
+                <a href="../logout.php" class="flex items-center p-2 rounded-md hover:bg-gray-100 transition-colors duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out mr-2 h-4 w-4"><path d="M9 21H5a2 2 0 0 1-2-2v-4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
                     <span class="menu-item-label">Logout</span>
                 </a>
@@ -52,41 +52,11 @@ else if ($_SESSION['id_role'] == 1){
         </nav>
     </div>
 
-    <main class="flex-1 p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <main class="flex-1 p-6">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-900">Welcome to the Dashboard</h2>
+        <p class="text-gray-600">This is your main content area. You can add your dashboard components here.</p>
+    </main>
 
-    <?php
-        $sensors = include 'assets/sensors.php';
-
-        if (!empty($sensors)) {
-            foreach ($sensors as $sens) {
-                if ($sens["ledStatus"]  == "ON") {
-                    $led_status = "ON";
-                    $image_src = "assets/img/ON.png";
-                } else {
-                    $led_status = "OFF";
-                    $image_src = "assets/img/OFF.png";
-                }
-
-                echo '<div class="bg-white rounded-lg shadow-md overflow-hidden flex" style="height: 200px;">';
-                echo '<div class="w-1/3">';
-                echo '<br/>';
-                echo '<img src="' . $image_src . '" alt="LED Status ' . $led_status . '" class="w-25 h-25 object-cover">';
-                echo '</div>';
-                echo '<div class="p-4 w-2/3 flex flex-col justify-between">';
-                echo '<h3 class="text-lg font-semibold text-gray-900">LED ' . $sens["id_sensor"] . '</h3>'; // Title: LED (1), LED (2), etc.
-                echo '<p class="mt-2 text-gray-700">LDR Value: ' . $sens["ldrValue"] .  '</p>';
-                echo '<div class="mt-3">';
-                echo '<span class="text-sm text-gray-600">Status: ' . $sens["ledStatus"] .  '</span>';
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
-            }
-        } else {
-            echo "<div class='bg-white rounded-lg shadow-md p-4'>No data found</div>"; // Or any other message you prefer
-        }
-        ?>
-
-</main>
     <script>
         const sidebar = document.getElementById('sidebar');
         const collapseBtn = document.getElementById('collapse-btn');
@@ -105,7 +75,7 @@ else if ($_SESSION['id_role'] == 1){
             });
 
             if (isCollapsed) {
-                collapseIcon.setAttribute('d', 'M9 18l6-6-6-6');
+                collapseIcon.setAttribute('d', 'M9 18l6-6-6-6'); 
             } else {
                 collapseIcon.setAttribute('d', 'M15 18l-6-6 6-6');
             }
@@ -135,10 +105,10 @@ else if ($_SESSION['id_role'] == 1){
             overlay.classList.toggle('opacity-0');
         });
 
-        const menuLinks = document.querySelectorAll('.menu-item-label');
+        const menuLinks = document.querySelectorAll('.menu-item-label'); 
         menuLinks.forEach(link => {
             link.addEventListener('click', () => {
-                if (window.innerWidth < 768) {
+                if (window.innerWidth < 768) { 
                     sidebar.classList.toggle('translate-x-0');
                     sidebar.classList.toggle('-translate-x-full');
                     overlay.classList.toggle('opacity-50');
