@@ -39,7 +39,7 @@
 <body class="bg-gray-100 h-screen flex">
     <div id="sidebar" class="bg-white text-gray-900 border-r border-gray-200 transition-all duration-300 ease-in-out h-full flex flex-col w-64">
         <div class="flex items-center justify-between h-16 px-4 border-b border-gray-200">
-            <h1 class="text-lg font-semibold">Smart Streetlight</h1>
+            <h1 class="text-lg font-semibold">Admin Dashboard</h1>
             <button id="collapse-btn" class="lg:hidden rounded-full p-1 hover:bg-gray-100">
                 <svg id="collapse-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left h-5 w-5"><path d="m15 18-6-6 6-6"/></svg>
             </button>

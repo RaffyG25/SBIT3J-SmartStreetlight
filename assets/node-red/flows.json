@@ -1,0 +1,120 @@
+[
+    {
+        "id": "d2c26702d75a3177",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a0f80d890150a422",
+        "type": "serial in",
+        "z": "d2c26702d75a3177",
+        "name": "",
+        "serial": "bef00c39fd1e493a",
+        "x": 110,
+        "y": 140,
+        "wires": [
+            [
+                "86fa286291fe65e5"
+            ]
+        ]
+    },
+    {
+        "id": "86fa286291fe65e5",
+        "type": "json",
+        "z": "d2c26702d75a3177",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 230,
+        "y": 220,
+        "wires": [
+            [
+                "d7934611861c57a0"
+            ]
+        ]
+    },
+    {
+        "id": "74adf893d63b78e4",
+        "type": "mysql",
+        "z": "d2c26702d75a3177",
+        "mydb": "2392f6b22cc92653",
+        "name": "",
+        "x": 580,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d7934611861c57a0",
+        "type": "function",
+        "z": "d2c26702d75a3177",
+        "name": "function 1",
+        "func": "var sensorDataArray = msg.payload; // Directly use msg.payload as it's already a JavaScript object\n\nvar outputMsgs = [];\n\nfor (var i = 0; i < sensorDataArray.length; i++) {\n  var sensorData = sensorDataArray[i];\n  var ledId = sensorData.ID;\n  var ldrValue = sensorData.LDR;\n  var ledStatus = sensorData.LED;\n\n  var newMsg = {\n    payload: [ldrValue, ledStatus, ledId], // Values for the prepared statement\n    topic: 'UPDATE sensorvalues SET ldrValue = ?, ledStatus = ? WHERE id_sensor = ?;' // SQL with placeholders\n  };\n  outputMsgs.push(newMsg);\n}\n\nreturn [ outputMsgs ]; // Return an array containing the array of messages",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 280,
+        "wires": [
+            [
+                "74adf893d63b78e4",
+                "0fd8fb8bc6d2c0c3"
+            ]
+        ]
+    },
+    {
+        "id": "0fd8fb8bc6d2c0c3",
+        "type": "debug",
+        "z": "d2c26702d75a3177",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "bef00c39fd1e493a",
+        "type": "serial-port",
+        "name": "",
+        "serialport": "COM3",
+        "serialbaud": "9600",
+        "databits": 8,
+        "parity": "none",
+        "stopbits": 1,
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": 10000
+    },
+    {
+        "id": "2392f6b22cc92653",
+        "type": "MySQLdatabase",
+        "name": "Smart Streetlight DB",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "smart_streetlight",
+        "tz": "",
+        "charset": "UTF8"
+    }
+]

@@ -83,6 +83,7 @@ else if ($_SESSION['id_role'] == 2){
         } else {
             echo "<div class='bg-white rounded-lg shadow-md p-4'>No data found</div>"; // Or any other message you prefer
         }
+        return $sensors;
         ?>
 
 </main>

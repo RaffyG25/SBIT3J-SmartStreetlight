@@ -32,7 +32,7 @@ else if ($_SESSION['id_role'] == 1){
 <body class="bg-gray-100 h-screen flex">
     <div id="sidebar" class="bg-white text-gray-900 border-r border-gray-200 transition-all duration-300 ease-in-out h-full flex flex-col w-64">
         <div class="flex items-center justify-between h-16 px-4 border-b border-gray-200">
-            <h1 class="text-lg font-semibold">Dashboard</h1>
+            <h1 class="text-lg font-semibold">Captain Dashboard</h1>
             <button id="collapse-btn" class="lg:hidden rounded-full p-1 hover:bg-gray-100">
                 <svg id="collapse-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left h-5 w-5"><path d="m15 18-6-6 6-6"/></svg>
             </button>
@@ -43,7 +43,11 @@ else if ($_SESSION['id_role'] == 1){
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard mr-2 h-4 w-4"><rect width="22" height="9" x="1" y="3" rx="4" ry="4"/><rect width="22" height="9" x="1" y="12" rx="4" ry="4"/><path d="M6 6h6"/><path d="M6 15h6"/></svg>
                     <span class="menu-item-label">Dashboard</span>
                 </a>
-                <a href="logout.php" class="flex items-center p-2 rounded-md hover:bg-gray-100 transition-colors duration-200">
+                <a href="panel.php" class="flex items-center p-2 rounded-md hover:bg-gray-100 transition-colors duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard mr-2 h-4 w-4"><rect width="22" height="9" x="1" y="3" rx="4" ry="4"/><rect width="22" height="9" x="1" y="12" rx="4" ry="4"/><path d="M6 6h6"/><path d="M6 15h6"/></svg>
+                    <span class="menu-item-label">Control Panel</span>
+                </a>
+                <a href="../logout.php" class="flex items-center p-2 rounded-md hover:bg-gray-100 transition-colors duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out mr-2 h-4 w-4"><path d="M9 21H5a2 2 0 0 1-2-2v-4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
                     <span class="menu-item-label">Logout</span>
                 </a>
@@ -55,16 +59,16 @@ else if ($_SESSION['id_role'] == 1){
     <main class="flex-1 p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
     <?php
-        $sensors = include 'assets/sensors.php';
+        $sensors = include '../assets/sensors.php';
 
         if (!empty($sensors)) {
             foreach ($sensors as $sens) {
                 if ($sens["ledStatus"]  == "ON") {
                     $led_status = "ON";
-                    $image_src = "assets/img/ON.png";
+                    $image_src = "../assets/img/ON.png";
                 } else {
                     $led_status = "OFF";
-                    $image_src = "assets/img/OFF.png";
+                    $image_src = "../assets/img/OFF.png";
                 }
 
                 echo '<div class="bg-white rounded-lg shadow-md overflow-hidden flex" style="height: 200px;">';
@@ -84,6 +88,7 @@ else if ($_SESSION['id_role'] == 1){
         } else {
             echo "<div class='bg-white rounded-lg shadow-md p-4'>No data found</div>"; // Or any other message you prefer
         }
+        return $sensors;
         ?>
 
 </main>
